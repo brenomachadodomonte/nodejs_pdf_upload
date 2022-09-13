@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>PDF Upload</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>PDF Upload</h1>
+            <form id='form' enctype="multipart/form-data">
+                <div class="input-group">
+                    <label for='name'>Username</label>
+                    <input name='name' id='name' placeholder="Enter your username" />
+                </div>
+                <div class="input-group">
+                    <label for='files'>Select PDF file</label>
+                    <input id='file' type="file" accept="application/pdf">
+                </div>
+                <button class="submit-btn" type='submit'>Upload</button>
+            </form>
+        </div>
+        <script>
+            const form  = document.getElementById('form');
+
+            form.addEventListener("submit", submit);
+
+            function submit(event) {
+                event.preventDefault();
+                const usernameInput = document.getElementById('name');
+                const fileInput = document.getElementById('file');
+
+                const formData = new FormData();
+                formData.append('username', usernameInput.value);
+                formData.append('file', fileInput.files[0], 'test');
+                
+                fetch('http://localhost:3000/upload', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }).then((res) => console.log(res));
+            }
+        </script>
+    </body>
+</html>
